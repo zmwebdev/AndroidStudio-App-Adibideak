@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Behaketa Editatu/Ezabatu"
+        style="@style/TextAppearance.Material3.HeadlineSmall"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Zeruko Gorputza -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/celestialBodyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Zeruko Gorputza"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/celestialBodyEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            tools:text="Jupiterren Ilargia" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Data (Editagarria izaten jarraitzen du, nahiz eta formatu jakin bat izan) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dateLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Data"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            tools:text="2025-01-15 22:30" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Teleskopio Ezarpena -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/scopeSettingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Teleskopio Ezarpena"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/scopeSettingEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            tools:text="Newton 8''" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Oharrak -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/notesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Oharrak"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="24dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/notesEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:minLines="3"
+            android:maxLines="5"
+            android:inputType="textMultiLine"
+            tools:text="Gau izoztua, ikusgarritasun bikainarekin..." />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Ekintza Botoiak -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <!-- Ezabatu Botoia -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ezabatu"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            app:strokeColor="@color/design_default_color_error"
+            android:textColor="@color/design_default_color_error"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Eguneratu Botoia -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/updateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gorde / Eguneratu"
+            android:enabled="true"/>
+
+    </LinearLayout>
+
+</LinearLayout>

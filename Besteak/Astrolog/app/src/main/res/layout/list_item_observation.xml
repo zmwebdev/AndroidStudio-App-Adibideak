@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Behaketen zerrendako elementu baten diseinua (RecyclerView-erako) -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- 1. Zeruko Gorputzaren Izena (Izenburua) -->
+        <TextView
+            android:id="@+id/celestialBodyText"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toStartOf="@+id/dateText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Jupiter eta lau Ilargi" />
+
+        <!-- 2. Behaketaren Data -->
+        <TextView
+            android:id="@+id/dateText"
+            style="@style/TextAppearance.Material3.BodySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2025-01-15" />
+
+        <!-- 3. Oharren aurrebista laburra -->
+        <TextView
+            android:id="@+id/notesPreviewText"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/celestialBodyText"
+            tools:text="Gau izoztua, ikusgarritasun bikainarekin. Eremu gorria oso nabaria zen. Teleskopioarekin ikuspegi zoragarria." />
+
+        <!-- 4. Teleskopioaren Ezarpenak (Chip gisa) -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/scopeChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:chipIcon="@android:drawable/ic_menu_search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notesPreviewText"
+            tools:text="Newton 8'' f/5.6" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
