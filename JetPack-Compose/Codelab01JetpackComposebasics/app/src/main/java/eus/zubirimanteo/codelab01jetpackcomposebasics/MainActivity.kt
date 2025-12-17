@@ -1,5 +1,6 @@
 package eus.zubirimanteo.codelab01jetpackcomposebasics
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -150,9 +151,16 @@ fun MyAppPreview() {
 //    }
 //}
 
+
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "GreetingPreviewDark"
+)
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun GreetingsPreview() {
+fun GreetingPreview() {
     Codelab01JetpackComposeBasicsTheme {
         Greetings()
     }
