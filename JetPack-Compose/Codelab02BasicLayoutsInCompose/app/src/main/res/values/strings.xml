@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Codelab02BasicLayoutsInCompose</string>
+    <string name="search">Search</string>
+    <string name="inversions">Inversions</string>
 </resources>
