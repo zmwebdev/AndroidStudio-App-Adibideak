@@ -84,7 +84,7 @@ fun AlignYourBodyElement(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(R.drawable.ab1_inversions),
+            painter = painterResource(drawable),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -205,3 +205,4 @@ fun AlignYourBodyRowPreview() {
         AlignYourBodyRow()
     }
 }
+
