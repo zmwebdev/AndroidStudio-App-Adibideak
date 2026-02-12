@@ -49,6 +49,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun MySootheApp() {
+    TODO("Not yet implemented")
+}
 
 @Composable
 fun SearchBar(
@@ -169,11 +173,24 @@ fun FavoriteCollectionsGrid(
     }
 }
 
-@Composable
-fun MySootheApp() {
-    TODO("Not yet implemented")
-}
 
+@Composable
+fun HomeSection(
+    @StringRes title: Int,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    Column(modifier) {
+        Text(
+            text = stringResource(title),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .paddingFromBaseline(top = 40.dp, bottom = 8.dp)
+                .padding(horizontal = 16.dp)
+        )
+        content()
+    }
+}
 
 /****************/
 
@@ -246,6 +263,16 @@ fun AlignYourBodyRowPreview() {
 fun FavoriteCollectionsGridPreview() {
     Codelab02BasicLayoutsInComposeTheme {
         FavoriteCollectionsGrid()
+    }
+}
+
+@Preview(showBackground = true, backgroundColor = 0xFFF5F0EE)
+@Composable
+fun HomeSectionPreview() {
+    Codelab02BasicLayoutsInComposeTheme {
+        HomeSection(
+            title = R.string.align_your_body
+        ) { AlignYourBodyRow() }
     }
 }
 
