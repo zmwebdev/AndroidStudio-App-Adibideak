@@ -36,6 +36,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -54,7 +55,7 @@ import eus.zubirimanteo.codelab02basiclayoutsincompose.ui.theme.Codelab02BasicLa
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MySootheApp() }
+        setContent { MySootheAppPortait() }
     }
 }
 
@@ -251,6 +252,17 @@ private fun SootheBottomNavigation(modifier: Modifier = Modifier) {
             selected = true,
             onClick = {}
         )
+    }
+}
+
+@Composable
+fun MySootheAppPortait() {
+    Codelab02BasicLayoutsInComposeTheme {
+        Scaffold(
+            bottomBar = { SootheBottomNavigation() }
+        ) { padding ->
+            HomeScreen(Modifier.padding(padding))
+        }
     }
 }
 
