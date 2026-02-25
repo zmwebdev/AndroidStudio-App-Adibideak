@@ -16,5 +16,7 @@
     <string name="fc5_overwhelmed">Overwhelmed</string>
     <string name="fc6_nightly_wind_down">Nightly wind down</string>
     <string name="align_your_body">Align Your Body</string>
+    <string name="bottom_navigation_home">Home</string>
+    <string name="bottom_navigation_profile">Profile</string>
     <string name="favorite_collections">Favorite Collections</string>
 </resources>
