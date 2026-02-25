@@ -29,10 +29,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Spa
-import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -44,6 +42,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,15 +58,26 @@ import androidx.compose.ui.unit.dp
 import eus.zubirimanteo.codelab02basiclayoutsincompose.ui.theme.Codelab02BasicLayoutsInComposeTheme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MySootheAppPortait() }
+        setContent {
+            val windowSizeClass = calculateWindowSizeClass(this)
+            MySootheApp(windowSizeClass)
+        }
     }
 }
 
 @Composable
-fun MySootheApp() {
-    TODO("Not yet implemented")
+fun MySootheApp(windosizeClass: WindowSizeClass) {
+    when (windosizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact -> {
+            MySootheAppPortait()
+        }
+        WindowWidthSizeClass.Medium, WindowWidthSizeClass.Expanded -> {
+            MySootheAppLandscape()
+        }
+    }
 }
 
 @Composable
