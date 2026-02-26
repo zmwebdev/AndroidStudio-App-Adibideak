@@ -50,6 +50,7 @@ fun WaterCounter(modifier: Modifier = Modifier) {
     {
         //var count : MutableState<Int> = mutableStateOf(0)
         var count by rememberSaveable { mutableStateOf(0) }
+        // Gemini("by" azalpena): by gako-hitzak Kotlin-i esaten dio: "Ados, count izeneko aldagai bat definituko dut. Baina bere balioa lortu (get) edo ezarri (set) nahi dudan bakoitzean, ez dut zuzenean kudeatuko. Horren ordez, lana rememberSaveable { mutableStateOf(0) }-k sortutako objektuari pasako diot".
         Text(text = "Zuk $count ur baso dituzu")
         Button(onClick = { count++ }, Modifier.padding(top = 8.dp)) {
             Text(text = "Bat gehitu")
