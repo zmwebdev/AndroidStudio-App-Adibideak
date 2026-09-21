@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Basic Codelab</string>
+    <string name="show_less">Gutxiago erakutsi</string>
+    <string name="show_more">Gehiago erakutsi</string>
 </resources>
