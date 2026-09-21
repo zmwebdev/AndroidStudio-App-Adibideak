@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Basic Layouts in Compose</string>
+    <string name="placeholder_search">Bilatu</string>
+    <string name="ab1_inversions">Inbertsioak</string>
+</resources>
