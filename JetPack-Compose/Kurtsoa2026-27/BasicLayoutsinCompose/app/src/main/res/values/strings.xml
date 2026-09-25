@@ -3,4 +3,16 @@
     <string name="placeholder_search">Bilatu</string>
     <string name="ab1_inversions">Inbertsioak</string>
     <string name="fc2_nature_meditations">Natura meditazioa</string>
+    <string name="ab2_quick_yoga">yoga</string>
+    <string name="ab3_stretching">Luzapenak</string>
+    <string name="ab4_tabata">tabata</string>
+    <string name="ab5_hiit">hiit</string>
+    <string name="ab6_pre_natal_yoga">natal yoga</string>
+    <string name="fc1_short_mantras">mantras</string>
+    <string name="fc3_stress_and_anxiety">stress and anxiety</string>
+    <string name="fc4_self_massage">self massage</string>
+    <string name="fc5_overwhelmed">over whelmed</string>
+    <string name="fc6_nightly_wind_down">wind down</string>
+    <string name="nere_testua">Herria</string>
+    <string name="align_your_body">Landu zure gorputza</string>
 </resources>
