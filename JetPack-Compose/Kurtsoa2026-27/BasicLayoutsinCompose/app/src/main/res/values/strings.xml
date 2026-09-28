@@ -15,4 +15,7 @@
     <string name="fc6_nightly_wind_down">wind down</string>
     <string name="nere_testua">Herria</string>
     <string name="align_your_body">Landu zure gorputza</string>
+    <string name="bottom_navigation_home">Etxea</string>
+    <string name="bottom_navigation_profile">Profila</string>
+    <string name="favorite_collections">Kolekzio Gogokoenak</string>
 </resources>
