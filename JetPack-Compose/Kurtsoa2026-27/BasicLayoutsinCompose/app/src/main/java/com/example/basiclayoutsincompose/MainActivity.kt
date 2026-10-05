@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
+            val windowSizeClass = calculateWindowSizeClass(this@MainActivity)
             MySootheApp(windowSizeClass)
         }
     }
