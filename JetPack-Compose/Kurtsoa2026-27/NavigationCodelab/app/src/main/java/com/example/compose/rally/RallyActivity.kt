@@ -56,7 +56,11 @@ fun RallyApp() {
             topBar = {
                 RallyTabRow(
                     allScreens = rallyTabRowScreens,
-                    onTabSelected = { screen -> currentScreen = screen },
+                    // Pass the callback like this,
+                    // defining the navigation action when a tab is selected:
+                    onTabSelected = { newScreen ->
+                        navController.navigate(newScreen.route)
+                    },
                     currentScreen = currentScreen
                 )
             }
@@ -68,6 +72,12 @@ fun RallyApp() {
             ) {
                 composable(route = Overview.route) {
                     Overview.screen()
+                }
+                composable(route = Accounts.route) {
+                    Accounts.screen()
+                }
+                composable(route = Bills.route) {
+                    Bills.screen()
                 }
             }
         }

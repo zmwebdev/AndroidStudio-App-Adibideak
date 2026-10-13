@@ -45,7 +45,11 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.compose.rally.Overview
 import com.example.compose.rally.RallyDestination
+import com.example.compose.rally.rallyTabRowScreens
+import com.example.compose.rally.ui.theme.RallyTheme
 import java.util.Locale
 import androidx.compose.ui.platform.LocalLocale
 
@@ -125,3 +129,16 @@ private const val InactiveTabOpacity = 0.60f
 private const val TabFadeInAnimationDuration = 150
 private const val TabFadeInAnimationDelay = 100
 private const val TabFadeOutAnimationDuration = 100
+
+@Preview
+@Composable
+fun RallyTabRowPreview() {
+    RallyTheme {
+        RallyTabRow(
+            allScreens = rallyTabRowScreens,
+            onTabSelected = {},
+            currentScreen = Overview
+        )
+    }
+}
+
