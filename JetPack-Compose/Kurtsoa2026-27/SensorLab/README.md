@@ -2,6 +2,8 @@
 
 Claude Prompt: "I want a tutorial (step-by-step) to create an Android Jetpack Compose app using GPS. Students knows Jetpack Compose, but they have no idea about how to integrate GPS and other sensors."
 
+https://claude.ai/chat/42a28430-78d0-4d59-82e4-f11c7e5198c2?artifact=d3455494-11b1-4dcb-8a73-41623af934ed
+
 *A step-by-step guide for students who already know Compose but are new to location and device sensors.*
 
 ## What you will build
