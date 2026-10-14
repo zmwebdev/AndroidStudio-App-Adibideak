@@ -88,6 +88,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
 
+    // Icons.Default.Delete (used in Step 5). Version comes from the Compose BOM.
+    implementation("androidx.compose.material:material-icons-core")
+
     // ... existing dependencies
 }
 ```
