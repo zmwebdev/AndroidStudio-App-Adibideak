@@ -62,7 +62,7 @@ Add the Google Services plugin (declared, but not applied here):
 ```kotlin
 plugins {
     // ... existing plugins
-    id("com.google.gms.google-services") version "4.4.2" apply false
+    id("com.google.gms.google-services") version "4.5.0" apply false
 }
 ```
 
@@ -78,7 +78,7 @@ plugins {
 
 dependencies {
     // Firebase: the BoM manages the versions of all Firebase libraries
-    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation(platform("com.google.firebase:firebase-bom:35.0.0"))
     implementation("com.google.firebase:firebase-firestore")
 
     // Lets us use .await() on Firebase tasks inside coroutines
