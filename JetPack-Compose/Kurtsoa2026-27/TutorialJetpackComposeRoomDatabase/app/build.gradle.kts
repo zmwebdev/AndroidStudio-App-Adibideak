@@ -1,6 +1,13 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    // Room
+    id("com.google.devtools.ksp")
+}
+
+// Room can export its schema as JSON. Useful later for migrations.
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
 
 android {
@@ -51,4 +58,17 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    // Room
+    val roomVersion = "2.7.2" // check the latest stable version
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")   // coroutines + Flow support
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // ViewModel + collecting state in Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+
+    // Icons.Default.Delete (used in Step 5). Version comes from the Compose BOM.
+    implementation("androidx.compose.material:material-icons-core")
 }
