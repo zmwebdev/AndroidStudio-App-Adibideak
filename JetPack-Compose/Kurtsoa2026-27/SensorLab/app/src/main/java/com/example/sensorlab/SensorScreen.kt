@@ -1,14 +1,17 @@
 package com.example.sensorlab
 
+import android.location.Location
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.sensorlab.ui.theme.SensorLabTheme
 
 @Composable
 fun SensorScreen(vm: SensorsViewModel = viewModel()) {
@@ -17,6 +20,19 @@ fun SensorScreen(vm: SensorsViewModel = viewModel()) {
     val heading by vm.heading.collectAsStateWithLifecycle()
     val accel by vm.acceleration.collectAsStateWithLifecycle()
 
+    SensorScreenContent(
+        location = location,
+        heading = heading,
+        accel = accel
+    )
+}
+
+@Composable
+fun SensorScreenContent(
+    location: Location?,
+    heading: Float,
+    accel: FloatArray
+) {
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -66,5 +82,23 @@ fun SensorScreen(vm: SensorsViewModel = viewModel()) {
                 Text("z: %.2f".format(accel[2]))
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SensorScreenPreview() {
+    val sampleLocation = Location("sample").apply {
+        latitude = 43.3183
+        longitude = -1.9812
+        accuracy = 5.0f
+        speed = 1.2f
+    }
+    SensorLabTheme {
+        SensorScreenContent(
+            location = sampleLocation,
+            heading = 45f,
+            accel = floatArrayOf(0.1f, 9.81f, 0.2f)
+        )
     }
 }
