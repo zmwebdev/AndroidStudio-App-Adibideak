@@ -509,19 +509,27 @@ Both destinations now receive the same `AuthViewModel` object, so whatever Login
 ## Quick reference
 
 ```kotlin
-// Declare
+// Declare routes (Routes.kt)
 const val HOME = "home"
 const val DETAIL = "detail/{itemId}"
 fun detail(id: Int) = "detail/$id"
 
-// Host
-NavHost(navController, startDestination = HOME) {
+// Nested graph (AuthGraph.kt)
+fun NavGraphBuilder.authGraph(navController: NavController) {
+    navigation(startDestination = LOGIN, route = AUTH) {
+        composable(LOGIN) { /* ... */ }
+        composable(REGISTER) { /* ... */ }
+    }
+}
+
+// Host (AppNavigation.kt)
+NavHost(navController, startDestination = AUTH) {
+    authGraph(navController)
     composable(HOME) { /* ... */ }
     composable(
         route = DETAIL,
         arguments = listOf(navArgument("itemId") { type = NavType.IntType })
     ) { entry -> val id = entry.arguments?.getInt("itemId") }
-    navigation(startDestination = LOGIN, route = AUTH) { /* nested graph */ }
 }
 
 // Navigate
