@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,6 +54,41 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
         Text("Settings")
     }
 }
+
+@Composable
+fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    onRegisterClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Login", style = MaterialTheme.typography.headlineSmall)
+        Button(onClick = onLoginSuccess) { Text("Log in") }
+        TextButton(onClick = onRegisterClick) { Text("Create account") }
+    }
+}
+
+@Composable
+fun RegisterScreen(
+    onDone: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Register", style = MaterialTheme.typography.headlineSmall)
+        Button(onClick = onDone) { Text("Done") }
+    }
+}
+
+
+/**********************************************/
 
 @Preview(showBackground = true)
 @Composable

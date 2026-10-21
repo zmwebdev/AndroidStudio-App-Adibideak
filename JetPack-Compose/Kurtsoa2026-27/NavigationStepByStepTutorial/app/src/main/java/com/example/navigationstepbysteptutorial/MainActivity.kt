@@ -19,9 +19,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NavigationStepByStepTutorialTheme {
-                Scaffold { innerPadding ->
-                    AppNavigation(Modifier.padding(innerPadding))
-                }
+                    AppNavigation()
             }
         }
     }

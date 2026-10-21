@@ -50,9 +50,10 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.HOME,
+            startDestination = Routes.AUTH,
             modifier = Modifier.padding(innerPadding)
         ) {
+            authGraph(navController)
             composable(Routes.HOME) {
                 HomeScreen(onItemClick = { id -> navController.navigate(Routes.detail(id)) })
             }

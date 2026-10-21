@@ -5,6 +5,10 @@ object Routes {
     const val DETAIL = "detail/{itemId}"   // {itemId} is a placeholder for an argument
     const val SETTINGS = "settings"
 
+    const val AUTH = "auth"          // the nested graph itself
+    const val LOGIN = "login"        // screens inside it
+    const val REGISTER = "register"
+
     // Builds the real route for a given item
     fun detail(itemId: Int) = "detail/$itemId"
 }
