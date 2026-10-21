@@ -2,7 +2,6 @@
 
 Claude: https://claude.ai/share/52f56fa3-0b5f-4a83-94ac-e3765cdcaee6
 
-
 A hands-on introduction for students who already know Compose basics (composables, state, state hoisting) but have never used Navigation.
 
 ## What you will build
@@ -15,13 +14,27 @@ A small app with three screens:
 
 By the end you will know how to declare routes, build a `NavHost`, navigate forward and back, pass arguments, manage the back stack, add a bottom navigation bar, and group screens into nested graphs.
 
+## Files in this project
+
+Every code block in this tutorial says which file it belongs to. This is the complete list:
+
+| File | What goes in it | Steps |
+| --- | --- | --- |
+| `Routes.kt` | The route constants | 2, 8 |
+| `Screens.kt` | The screen composables (Home, Detail, Settings, Login, Register) | 3, 8 |
+| `AppNavigation.kt` | The NavController, the NavHost and the bottom bar | 4, 7, 8, 9 |
+| `MainActivity.kt` | Calls `AppNavigation()` | 4b, 7 |
+| `BottomNavItem.kt` | The description of the bottom tabs | 7 |
+| `AuthGraph.kt` | The nested login graph | 8 |
+| `DetailViewModel.kt` | A ViewModel that reads the route argument | 9 |
+
 ## Step 0. The big idea
 
 Compose has no Activities-per-screen and no Fragments. Your whole app usually lives in **one Activity** and "screens" are just composables. Navigation Compose gives you the machinery to switch between them. Learn these four words and everything else follows:
 
 | Concept | What it is |
 | --- | --- |
-| **Route** | A name (here, a Kotlin type) that identifies a destination. |
+| **Route** | A name (here, a string) that identifies a destination. |
 | **NavHost** | A composable that shows the destination matching the current route. It is the "container" for your screens. |
 | **NavController** | The object that performs navigation (`navigate`, `popBackStack`...). It owns the **back stack**. |
 | **Back stack** | The list of screens visited. Pressing Back removes the top one. |
@@ -63,9 +76,11 @@ object Routes {
 
 `detail/{itemId}` is a **pattern**: the NavHost uses it to recognise the screen and extract the argument. `Routes.detail(5)` produces `"detail/5"`, the concrete route you pass to `navigate`. Think of it like a web URL.
 
-## Step 3. Create the screens (without any navigation code)
+## Step 3. Create the screens in Screens.kt (without any navigation code)
 
 A golden rule: **screens must not know about the NavController.** Instead they receive lambdas (state hoisting, which you already know). This keeps them reusable, previewable and testable.
+
+Create a new file called `Screens.kt` and put these three composables in it:
 
 ```kotlin
 @Composable
@@ -201,7 +216,7 @@ Useful functions:
 
 ## Step 6. Controlling the back stack with navigate options
 
-Sometimes you do not want the old screen to remain. Typical example: after a **login** screen, the user should not be able to go Back to it.
+Sometimes you do not want the old screen to remain. Typical example: after a **login** screen, the user should not be able to go Back to it. The snippet below is not a new file: it goes in whichever callback triggers the navigation, for example the `onLoginSuccess` lambda you will see in Step 8.
 
 ```kotlin
 // Assumes the app has a login screen with the route Routes.LOGIN
@@ -218,9 +233,14 @@ navController.navigate(Routes.HOME) {
 
 A bottom bar switches between **top-level** destinations (Home and Settings). We need to know the current route to highlight the selected tab.
 
-First, describe the tabs:
+First, describe the tabs in a new file called `BottomNavItem.kt`:
 
 ```kotlin
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.graphics.vector.ImageVector
+
 data class BottomNavItem(
     val name: String,
     val route: String,
@@ -232,6 +252,8 @@ val bottomNavItems = listOf(
     BottomNavItem("Settings", Routes.SETTINGS, Icons.Default.Settings)
 )
 ```
+
+Do not forget the `Icons` imports at the top of `BottomNavItem.kt`: without them you get an "unresolved reference" error. `Home` and `Settings` belong to the core icon set, which the Material 3 dependency normally already includes. Add `material-icons-extended` only if you need icons outside the core set, because it is a large library.
 
 Then move the `NavController` **up** so both the bar and the `NavHost` share it. Update `AppNavigation.kt`:
 
@@ -286,7 +308,7 @@ fun AppNavigation() {
 }
 ```
 
-Required imports:
+Required imports (add them to `AppNavigation.kt`):
 
 ```kotlin
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -294,6 +316,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 ```
 
 In `MainActivity`, remove the outer `Scaffold` and call `AppNavigation()` directly, since the Scaffold now lives inside it.
+
+```kotlin
+setContent {
+    MyAppTheme {
+        AppNavigation()   // no Modifier and no outer Scaffold anymore
+    }
+}
+```
 
 What the new pieces do:
 
@@ -308,7 +338,7 @@ So far every destination sits directly inside one `NavHost`. Real apps have grou
 
 In Compose you create one with the `navigation()` function inside the `NavHost` builder. It looks like `composable()`, but it holds several screens, and it needs a `startDestination` (the first screen of the group) and a `route` (the name of the group).
 
-First, add the new routes to `Routes`:
+First, open `Routes.kt` and add the new routes to `Routes`:
 
 ```kotlin
 object Routes {
@@ -319,7 +349,43 @@ object Routes {
 }
 ```
 
-Then declare the graph. To keep `AppNavigation` tidy, put it in an extension function. `LoginScreen` and `RegisterScreen` are simple screens like the ones from Step 3, taking lambdas for their events:
+Before declaring the graph, add two simple screens at the end of `Screens.kt`:
+
+```kotlin
+@Composable
+fun LoginScreen(
+    onLoginSuccess: () -> Unit,
+    onRegisterClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Login", style = MaterialTheme.typography.headlineSmall)
+        Button(onClick = onLoginSuccess) { Text("Log in") }
+        TextButton(onClick = onRegisterClick) { Text("Create account") }
+    }
+}
+
+@Composable
+fun RegisterScreen(
+    onDone: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Register", style = MaterialTheme.typography.headlineSmall)
+        Button(onClick = onDone) { Text("Done") }
+    }
+}
+```
+
+Then declare the graph. To keep `AppNavigation` tidy, put it in an extension function in a new file called `AuthGraph.kt`. `LoginScreen` and `RegisterScreen` are simple screens like the ones from Step 3 (add them to `Screens.kt`), taking lambdas for their events:
 
 ```kotlin
 import androidx.navigation.NavController
@@ -346,7 +412,7 @@ fun NavGraphBuilder.authGraph(navController: NavController) {
 }
 ```
 
-Finally, call it from the host:
+Finally, in `AppNavigation.kt`, call it from the `NavHost` and make `Routes.AUTH` the start destination:
 
 ```kotlin
 NavHost(navController, startDestination = Routes.AUTH) {
@@ -363,23 +429,9 @@ Points to understand:
 3. Screens inside a graph navigate to each other by their own routes, exactly as before.
 4. Graphs can be nested inside other graphs.
 
-Bonus: screens in the same graph can share one ViewModel by scoping it to the graph's back stack entry:
-
-```kotlin
-composable(Routes.REGISTER) { backStackEntry ->
-    val parentEntry = remember(backStackEntry) {
-        navController.getBackStackEntry(Routes.AUTH)
-    }
-    val authViewModel: AuthViewModel = viewModel(parentEntry)
-    // ...
-}
-```
-
-This is handy for multi-step forms: every step reads and writes the same state, and the ViewModel is cleared when the graph leaves the back stack.
-
 ## Step 9. Use arguments in a ViewModel (optional, recommended)
 
-In real apps the Detail screen would load data. A `ViewModel` can read the route arguments directly from `SavedStateHandle`:
+In real apps the Detail screen would load data. Create a new file called `DetailViewModel.kt`. A `ViewModel` can read the route arguments directly from `SavedStateHandle`:
 
 ```kotlin
 class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -388,7 +440,7 @@ class DetailViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
 }
 ```
 
-Then in the destination:
+Then, in `AppNavigation.kt`, update the Detail destination:
 
 ```kotlin
 composable(
@@ -401,6 +453,40 @@ composable(
 ```
 
 The `viewModel()` function comes from `androidx.lifecycle:lifecycle-viewmodel-compose`. The ViewModel is scoped to the back stack entry, so it is created when the screen is pushed and cleared when it is popped.
+
+**Optional: sharing one ViewModel between the screens of a nested graph.** You can skip this part on a first reading.
+
+Sometimes several screens of the same nested graph (Step 8) need the same data. Example: the user types an email in Login, taps "Create account", and Register should show that same email. Passing it through routes is clumsy. Instead, both screens can use **one ViewModel that belongs to the graph**: it is created when the graph is entered and cleared when the graph is removed from the back stack.
+
+First, create a new file called `AuthViewModel.kt`:
+
+```kotlin
+class AuthViewModel : ViewModel() {
+    var email by mutableStateOf("")
+}
+```
+
+Then ask for the ViewModel of the graph itself, not of a single screen: `getBackStackEntry(Routes.AUTH)` returns the entry of the graph, and passing it to `viewModel()` ties the ViewModel to the graph. In `AuthGraph.kt`, change the Login and Register destinations like this (keep your existing screen calls):
+
+```kotlin
+composable(Routes.LOGIN) { backStackEntry ->
+    val parentEntry = remember(backStackEntry) {
+        navController.getBackStackEntry(Routes.AUTH)
+    }
+    val authViewModel: AuthViewModel = viewModel(parentEntry)
+    // ...LoginScreen can read and write authViewModel.email
+}
+
+composable(Routes.REGISTER) { backStackEntry ->
+    val parentEntry = remember(backStackEntry) {
+        navController.getBackStackEntry(Routes.AUTH)
+    }
+    val authViewModel: AuthViewModel = viewModel(parentEntry)
+    // ...RegisterScreen sees the same authViewModel.email
+}
+```
+
+Both destinations now receive the same `AuthViewModel` object, so whatever Login stores in `email`, Register can read. Without the `getBackStackEntry(Routes.AUTH)` part, each screen would get its own separate ViewModel and the data would not be shared. When the graph is popped (for example after a successful login), the shared ViewModel is cleared.
 
 ## Common mistakes
 
