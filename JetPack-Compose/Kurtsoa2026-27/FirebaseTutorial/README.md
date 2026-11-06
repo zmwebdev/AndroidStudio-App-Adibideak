@@ -1,5 +1,7 @@
 # Jetpack Compose + Cloud Firestore: Step-by-Step Tutorial
 
+https://github.com/zmwebdev/AndroidStudio-App-Adibideak/tree/main/JetPack-Compose/Kurtsoa2026-27/FirebaseTutorial
+
 Claude: https://claude.ai/share/beec9bce-d3b0-47e2-b852-da2a484ed877
 
 A hands-on guide for students who already know Jetpack Compose but have never used Firebase.
