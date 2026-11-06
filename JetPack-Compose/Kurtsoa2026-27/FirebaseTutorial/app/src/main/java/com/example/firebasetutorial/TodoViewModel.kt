@@ -19,7 +19,7 @@ class TodoViewModel(
             initialValue = emptyList()
         )
 
-    fun add(title: String) = repository.add(title)
+    fun add(title: String, description: String = "") = repository.add(title, description)
     fun setDone(item: TodoItem, done: Boolean) = repository.setDone(item.id, done)
     fun delete(item: TodoItem) = repository.delete(item.id)
 }

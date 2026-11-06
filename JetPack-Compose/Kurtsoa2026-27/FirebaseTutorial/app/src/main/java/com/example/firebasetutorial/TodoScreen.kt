@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun TodoScreen(viewModel: TodoViewModel = viewModel()) {
     val items by viewModel.items.collectAsStateWithLifecycle()
     var newTitle by remember { mutableStateOf("") }
+    var newDescription by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text("My To-Dos") }) }
@@ -28,21 +29,32 @@ fun TodoScreen(viewModel: TodoViewModel = viewModel()) {
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Column {
                 OutlinedTextField(
                     value = newTitle,
                     onValueChange = { newTitle = it },
-                    label = { Text("New task") },
+                    label = { Text("New task title") },
                     singleLine = true,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(Modifier.width(8.dp))
-                Button(onClick = {
-                    if (newTitle.isNotBlank()) {
-                        viewModel.add(newTitle.trim())
-                        newTitle = ""
-                    }
-                }) { Text("Add") }
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = newDescription,
+                    onValueChange = { newDescription = it },
+                    label = { Text("Description (optional)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        if (newTitle.isNotBlank()) {
+                            viewModel.add(newTitle.trim(), newDescription.trim())
+                            newTitle = ""
+                            newDescription = ""
+                        }
+                    },
+                    modifier = Modifier.align(Alignment.End)
+                ) { Text("Add") }
             }
 
             Spacer(Modifier.height(16.dp))
@@ -67,15 +79,27 @@ fun TodoRow(
     onDelete: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(checked = item.done, onCheckedChange = onCheckedChange)
-        Text(
-            text = item.title,
-            modifier = Modifier.weight(1f),
-            textDecoration = if (item.done) TextDecoration.LineThrough else null
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = item.title,
+                style = MaterialTheme.typography.titleMedium,
+                textDecoration = if (item.done) TextDecoration.LineThrough else null
+            )
+            if (item.description.isNotBlank()) {
+                Text(
+                    text = item.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textDecoration = if (item.done) TextDecoration.LineThrough else null
+                )
+            }
+        }
         IconButton(onClick = onDelete) {
             Icon(Icons.Default.Delete, contentDescription = "Delete")
         }

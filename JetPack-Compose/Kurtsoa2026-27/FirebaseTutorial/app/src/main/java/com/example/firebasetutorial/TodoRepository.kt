@@ -27,8 +27,8 @@ class TodoRepository {
     }
 
     // CREATE
-    fun add(title: String) {
-        collection.add(TodoItem(title = title))
+    fun add(title: String, description: String = "") {
+        collection.add(TodoItem(title = title, description = description))
     }
 
     // UPDATE
