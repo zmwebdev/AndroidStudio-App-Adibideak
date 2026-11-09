@@ -469,8 +469,8 @@ You have two options.
 
 ```kotlin
 Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "tasks.db")
-    .fallbackToDestructiveMigration(dropAllTables = true)
-    .build()
+   .fallbackToDestructiveMigration(dropAllTables = true)
+   .build()
 ```
 
 This wipes the database on a version change. Never ship this if users have real data.
@@ -482,32 +482,36 @@ This wipes the database on a version change. Never ship this if users have real 
 abstract class AppDatabase : RoomDatabase() { /* ... */ }
 
 val MIGRATION_1_2 = object : Migration(1, 2) {
-    override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE tasks ADD COLUMN priority INTEGER NOT NULL DEFAULT 0")
-    }
+   override fun migrate(db: SupportSQLiteDatabase) {
+      db.execSQL("ALTER TABLE tasks ADD COLUMN priority INTEGER NOT NULL DEFAULT 0")
+   }
 }
 
 // ...
 Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "tasks.db")
-    .addMigrations(MIGRATION_1_2)
-    .build()
+   .addMigrations(MIGRATION_1_2)
+   .build()
 ```
 
 The exported schema JSON files in `app/schemas/` (from the `ksp { arg(...) }` setting) are the history of every version. Commit them to Git.
 
----
+**Where each piece goes (the full migration, step by step):**
 
-## 13. Common mistakes (and their symptoms)
+1. `Task.kt`: add the new property, for example `val priority: Int = 0`.
+2. `AppDatabase.kt`: change `version = 1` to `version = 2` in `@Database`.
+3. `AppDatabase.kt`: paste `MIGRATION_1_2` at file level, outside the class. Add the imports `androidx.room.migration.Migration` and `androidx.sqlite.db.SupportSQLiteDatabase`.
+4. `AppDatabase.kt`: add `.addMigrations(MIGRATION_1_2)` before `.build()` inside `getInstance()`.
 
-| Symptom | Likely cause |
-| --- | --- |
-| `Cannot find implementation for AppDatabase` | Missing `ksp("...room-compiler...")` or the KSP plugin |
-| `Cannot access database on the main thread` | Calling a non-suspend, non-Flow DAO function from the UI thread |
-| App crashes after changing an entity | Changed the schema without bumping `version` / adding a migration |
-| List never updates | DAO returns `List<Task>` instead of `Flow<List<Task>>` (a one-time snapshot) |
-| `@Update` / `@Delete` does nothing | The object's `id` is `0` or does not exist in the table |
-| Two different database instances, inconsistent data | Calling `Room.databaseBuilder` multiple times instead of using a singleton |
-| KSP version error at sync | KSP version does not match the Kotlin version |
+**How do you run it?** You never call the migration yourself. Room runs it automatically the first time the app opens a version 1 database.
+
+**How do you test it?**
+
+1. Install and run the app with version 1. Add some tasks.
+2. Make the four changes above.
+3. Run the app again on the same device or emulator **without uninstalling it**. Your old tasks should still be there.
+4. Open the Database Inspector: the `tasks` table now has a `priority` column.
+
+> **Tip:** if you uninstall the app first, there is no old database, so Room creates a fresh version 2 database and the migration never runs. This is the most common reason students think "my migration does nothing".
 
 ---
 
